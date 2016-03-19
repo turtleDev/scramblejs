@@ -4,7 +4,7 @@
 
 ## usage
 
-```
+```js
 var el = document.querySelector('p');
 scramble.enscramble(el);
 scramble.descramble(el);
