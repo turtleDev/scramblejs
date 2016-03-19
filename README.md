@@ -22,5 +22,10 @@ scramble.descramble(el);
 ## tip
 use monospace fonts for the best effect
 
-# License
+## License
 MIT
+
+## Credits
+the entities.json was taken from whatwg's HTML specification.  
+from [here](https://html.spec.whatwg.org/entities.json) to be exact.
+
