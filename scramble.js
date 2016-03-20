@@ -27,7 +27,7 @@
 
 'use strict';
 
-(function() {
+(function(exports, module) {
 
     var MIN_FLIP = 1;
     var MAX_FLIP = 7;
@@ -63,7 +63,7 @@
         var baseString = el.innerHTML.split('');
         var replacement = "";
         baseString.forEach(function(c) {
-            replacement += "<span data-original='" + c + "'>" + c + "</span>"
+            replacement += "<span data-ch='" + c + "'>" + c + "</span>"
         });
         
         el.innerHTML = replacement;
@@ -94,7 +94,7 @@
     }
 
     function domListToArray(dl) {
-        /* convert DOM list to an Array. Doesn't for for IE8 or less */
+        /* convert DOM list to an Array. Doesn't work for for IE8 or less */
         return [].slice.call(dl, 0);
     }
     function queueAnimation(el, cb) {
@@ -118,7 +118,7 @@
         });
     }
 
-    function enscramble(el) {
+    exports.enscramble = function(el) {
         queueAnimation(el, function(actor, chars, id) {
             if ( chars.length == 0 ) {
                 clearInterval(id);
@@ -128,20 +128,25 @@
         });
     }
 
-    function descramble(el) {
+    exports.descramble = function(el) {
         queueAnimation(el, function(actor, chars, id) {
             if ( chars.length == 0 ) {
                 clearInterval(id);
-                actor.innerHTML = actor.dataset.original;
+                actor.innerHTML = actor.dataset.ch;
                 return;
             }
             actor.innerHTML = chars.pop();
         });
     }
 
-    /* exports */
-    window.scramble = {
-        enscramble: enscramble,
-        descramble: descramble
-    };
-})()
+    exports.setText = function(el, text) {
+        if ( !hasClass(el, "js-scramble") ) {
+            scaffold(el);
+        }
+
+        var actors = el.children;
+        for ( var i = 0; i < actors.length; ++i ) {
+            actors[i].dataset.ch = text[i] || " ";
+        }
+    }
+})(this.scramble = Object.create(null), this)
