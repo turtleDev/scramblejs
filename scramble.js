@@ -164,17 +164,19 @@
                 els.forEach(function(el) {
                     descramble(el);
                 });
-            } else if ( arg != undefined && action == "setText" ) {
+            } else if ( action == "setText" ) {
                 if ( typeof arg != "string" ) {
-                    console.error("scramble.setText: arg must be a string, got:" + typeof(arg));
-                    return this;
+                    console.error("scramble.setText: arg must be a string, got: " + typeof(arg));
+                } else {
+                    els.forEach(function(el) {
+                        setText(el, arg);
+                    });
                 }
-                els.forEach(function(el) {
-                    setText(el, arg);
-                });
             } else {
                 console.error("scramble: unrecognized operation: " + action);
             }
+
+            console.log(this);
             return this;
         }
     } else {
