@@ -1,8 +1,8 @@
 # scramblejs
 
-> a little text-animation library.
+> text garble animation
 
-## usage
+## Usage
 
 ```js
 var el = document.querySelector('p');
@@ -10,7 +10,7 @@ scramble.enscramble(el);
 scramble.descramble(el);
 ```
 
-# todo
+# Todo
 
 * add support for jquery
 * add a demo gif to readme
@@ -19,13 +19,12 @@ scramble.descramble(el);
 * add more convenience functions
 * add more docs
 
-## tip
+## Tip
 use monospace fonts for the best effect
 
 ## License
 MIT
 
 ## Credits
-the entities.json was taken from whatwg's HTML specification.  
-from [here](https://html.spec.whatwg.org/entities.json) to be exact.
+the entities.json was taken from whatwg's HTML specification. from [here](https://html.spec.whatwg.org/entities.json) to be exact.
 
