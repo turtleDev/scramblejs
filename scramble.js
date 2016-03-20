@@ -27,7 +27,7 @@
 
 'use strict';
 
-(function(exports, module) {
+(function(module) {
 
     var MIN_FLIP = 1;
     var MAX_FLIP = 7;
@@ -118,7 +118,7 @@
         });
     }
 
-    exports.enscramble = function(el) {
+    function enscramble(el) {
         queueAnimation(el, function(actor, chars, id) {
             if ( chars.length == 0 ) {
                 clearInterval(id);
@@ -128,7 +128,7 @@
         });
     }
 
-    exports.descramble = function(el) {
+    function descramble(el) {
         queueAnimation(el, function(actor, chars, id) {
             if ( chars.length == 0 ) {
                 clearInterval(id);
@@ -139,7 +139,7 @@
         });
     }
 
-    exports.setText = function(el, text) {
+    function setText(el, text) {
         if ( !hasClass(el, "js-scramble") ) {
             scaffold(el);
         }
@@ -149,4 +149,40 @@
             actors[i].dataset.ch = text[i] || " ";
         }
     }
-})(this.scramble = Object.create(null), this)
+
+    if ( module.jQuery ) {
+        module.jQuery.fn.scramble = function(action, arg) {
+            
+            /* get list of selected DOM elements */
+            var els = this.get();
+
+            if ( action == undefined || action == "enscramble" ) {
+                els.forEach(function(el) {
+                    enscramble(el);
+                });
+            } else if ( action == "descramble" ) {
+                els.forEach(function(el) {
+                    descramble(el);
+                });
+            } else if ( arg != undefined && action == "setText" ) {
+                if ( typeof arg != "string" ) {
+                    console.error("scramble.setText: arg must be a string, got:" + typeof(arg));
+                    return this;
+                }
+                els.forEach(function(el) {
+                    setText(el, arg);
+                });
+            } else {
+                console.error("scramble: unrecognized operation: " + action);
+            }
+            return this;
+        }
+    } else {
+        module.scramble = Object.create(null);
+        var exports = module.scramble;
+
+        exports.enscramble = enscramble;
+        exports.descramble = descramble;
+        exports.setText = setText;
+    }
+})(this)
