@@ -12,11 +12,9 @@ scramble.descramble(el);
 
 # Todo
 
-* add support for jquery
 * add a demo gif to readme
 * polish the code
 * write a build system
-* add more convenience functions
 * add more docs
 
 ## Tip
