@@ -21,7 +21,7 @@ $('<selector>').scramble();
 
 * add a demo gif to readme
 * polish the code
-* write a build system
+* write a complete build system
 * add more docs
 
 ## Tip
