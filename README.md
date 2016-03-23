@@ -12,7 +12,12 @@ scramble.enscramble(<DOMelement>);
 $('<selector>').scramble();
 ```
 
-# Todo
+## Installation
+* clone this repo
+* run `npm install && npm run build`
+* copy the dist/scramble.js to where ever you need it
+
+## Todo
 
 * add a demo gif to readme
 * polish the code
