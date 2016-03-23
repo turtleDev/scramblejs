@@ -4,7 +4,7 @@
   "description": "A small text-animation library, with jQuery support",
   "main": "build.js",
   "scripts": {
-    "start": "node build.js"
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/turtleDev/scramblejs/issues"
   },
-  "homepage": "https://github.com/turtleDev/scramblejs#readme"
+  "homepage": "https://github.com/turtleDev/scramblejs#readme",
+  "dependencies": {
+    "handlebars": "^4.0.5"
+  }
 }
