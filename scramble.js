@@ -178,7 +178,6 @@
                 console.error("scramble: unrecognized operation: " + action);
             }
 
-            console.log(this);
             return this;
         }
     } else {
