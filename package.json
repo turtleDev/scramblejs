@@ -1,0 +1,24 @@
+{
+  "name": "scramblejs",
+  "version": "0.0.0",
+  "description": "A small text-animation library, with jQuery support",
+  "main": "build.js",
+  "scripts": {
+    "start": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turtleDev/scramblejs.git"
+  },
+  "keywords": [
+    "jQuery",
+    "animation",
+    "turtleDev"
+  ],
+  "author": "Saravjeet 'Aman' Singh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/turtleDev/scramblejs/issues"
+  },
+  "homepage": "https://github.com/turtleDev/scramblejs#readme"
+}
