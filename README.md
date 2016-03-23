@@ -5,9 +5,11 @@
 ## Usage
 
 ```js
-var el = document.querySelector('p');
-scramble.enscramble(el);
-scramble.descramble(el);
+/* without jQuery */
+scramble.enscramble(<DOMelement>);
+
+/* with jQuery */
+$('<selector>').scramble();
 ```
 
 # Todo
