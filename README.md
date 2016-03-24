@@ -20,11 +20,11 @@ $('<selector>').scramble();
 * run `npm install && npm run build`
 * copy the dist/scramble.js to where ever you need it
 
+
 ## Todo
 
-* add a demo gif to readme
 * polish the code
-* write a complete build system
+* write a complete build system ( with support for minification )
 * add more docs
 
 ## Tip
@@ -34,5 +34,7 @@ use monospace fonts for the best effect
 MIT
 
 ## Credits
-the entities.json was taken from whatwg's HTML specification. from [here](https://html.spec.whatwg.org/entities.json) to be exact.
+The entities.json was taken from whatwg's HTML specification. from [here](https://html.spec.whatwg.org/entities.json) to be exact.  
+
+The animation itself is inspired from the text animation at [codedoodles](http://codedoodl.es)
 
