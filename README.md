@@ -3,7 +3,7 @@
 > text garble animation
 
 ## Demo
-<img src="data/demo.gif">
+<img height="80px" src="data/demo.gif">
 
 ## Usage
 
