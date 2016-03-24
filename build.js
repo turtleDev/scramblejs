@@ -26,7 +26,6 @@ async.map([inFile, ent, chars], fs.readFile, function(err, data) {
     chars = chars.map(function(char) {
         return ent[char] || char;
     });
-    debugger;
     
     var template = hbs.compile(raw, {noEscape: true});
     var output = template({symbols:chars});
