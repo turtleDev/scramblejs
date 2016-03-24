@@ -2,7 +2,7 @@
 
 var hbs = require("handlebars");
 var fs = require("fs");
-var async = require("async");
+var Async = require("async");
 var path = require("path");
 
 var inFile = "./src/scramble.js.hbs";
@@ -11,7 +11,7 @@ var outFile = "./dist/scramble.js";
 var ent = "./entities.json";
 var chars = "./chars.txt";
 
-async.map([inFile, ent, chars], fs.readFile, function(err, data) {
+Async.map([inFile, ent, chars], fs.readFile, function(err, data) {
     if ( err ) {
         console.error(err);
         process.exit(0);
