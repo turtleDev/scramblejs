@@ -2,6 +2,9 @@
 
 > text garble animation
 
+## Demo
+<img src="data/demo.gif">
+
 ## Usage
 
 ```js

@@ -34,7 +34,7 @@
     var MAX_FLIP = 7;
 
     var MIN_INTERVAL = 70;
-    var MAX_INTERVAL = 90;
+    var MAX_INTERVAL = 140;
 
     var MIN_DELAY = 10;
     var MAX_DELAY = 50;
@@ -132,7 +132,7 @@
         }
         var actors = el.children;
         for ( var i = 0; i < actors.length; ++i ) {
-            actors[i].dataset.ch = text[i] || " ";
+            actors[i].dataset.ch = text[i] || "&nbsp;";
         }
     }
 
