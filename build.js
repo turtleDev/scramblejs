@@ -5,7 +5,7 @@ var fs = require("fs");
 var Async = require("async");
 var path = require("path");
 
-var inFile = "./src/scramble.js.hbs";
+var inFile = "./src/scramble.js";
 var outFile = "./dist/scramble.js";
 
 var ent = "./entities.json";
