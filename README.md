@@ -37,21 +37,22 @@ Also every single character inside the element is replaced with a span element.
 The library's interface consists of 3 routines.   
 
 
-* ### scramble.enscramble(&lt;DOMElement&gt;)
+* **scramble.enscramble(&lt;DOMElement&gt;)**
 Applies the scramble animation.  
 
-* ### scramble.descramble(&lt;DOMElement&gt;)
+* **scramble.descramble(&lt;DOMElement&gt;)**
 Removes the scramble by scrambling it back to original text. scramble-ception.
 
-* ### scramble.setText(&lt;DOMElement&gt;, text)
+* **scramble.setText(&lt;DOMElement&gt;, text)**
 Sets the text inside the DOMElement. Note that the length of text cannot exceed
 the length of the original text. If the `text` argument is longer than the original
 text, then it will be truncated to the length of the original text. If the argument
 is smaller than the original text, then it will be right padded with non-break space
 (& nbsp ; or \u00A0 in unicode).  
 
-The jQuery interface is a single method:
-$('&lt;selector&gt;').scramble(action[, argument])  
+The jQuery interface is a single method:  
+
+**$('&lt;selector&gt;').scramble(action[, argument])**
 
 
 action can be one of the following strings:  
