@@ -37,13 +37,13 @@ Also every single character inside the element is replaced with a span element.
 The library's interface consists of 3 routines.   
 
 
-* **scramble.enscramble(&lt;DOMElement&gt;)**
+* **scramble.enscramble(&lt;DOMElement&gt;)**  
 Applies the scramble animation.  
 
-* **scramble.descramble(&lt;DOMElement&gt;)**
+* **scramble.descramble(&lt;DOMElement&gt;)**  
 Removes the scramble by scrambling it back to original text. scramble-ception.
 
-* **scramble.setText(&lt;DOMElement&gt;, text)**
+* **scramble.setText(&lt;DOMElement&gt;, text)**  
 Sets the text inside the DOMElement. Note that the length of text cannot exceed
 the length of the original text. If the `text` argument is longer than the original
 text, then it will be truncated to the length of the original text. If the argument
