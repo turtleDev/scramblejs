@@ -47,8 +47,8 @@ Removes the scramble by scrambling it back to original text. scramble-ception.
 Sets the text inside the DOMElement. Note that the length of text cannot exceed
 the length of the original text. If the `text` argument is longer than the original
 text, then it will be truncated to the length of the original text. If the argument
-is smaller than the original text, then it will be right padded with non-break space
-(& nbsp ; or \u00A0 in unicode).  
+is smaller than the original text, then it will be right padded with non-breaking space
+(&amp;nbsp; or \u00A0 in unicode).  
 
 The jQuery interface is a single method:  
 
