@@ -1,6 +1,6 @@
 # scramblejs
 
-> a simple text-garble animation library cum jQuery plugin. Inspired by [codedoodl.es](http://codedoodl.es)
+> text animation library cum jQuery plugin. Inspired by [codedoodl.es](http://codedoodl.es)
 
 ## Demo
 <img height="80px" src="data/demo.gif">
