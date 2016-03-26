@@ -54,7 +54,7 @@
         });
         
         el.innerHTML = replacement;
-        el.className += "js-scramble";
+        el.className += " js-scramble";
     }
 
     function _getRandomChar() {
@@ -84,6 +84,7 @@
         /* convert DOM list to an Array. Doesn't work for for IE8 or less */
         return [].slice.call(dl, 0);
     }
+
     function queueAnimation(el, cb) {
         /* cb takes the arguments (el, chars, id) */
 
