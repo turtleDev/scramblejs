@@ -41,6 +41,10 @@
 
     var chars = [{{#each symbols}} "{{this}}", {{/each}}];
 
+    function newPlaceholder(ch) {
+        return "<span data-ch='" + ch + "'>" + ch + "</span>";
+    }
+
     function scaffold(el) {
 
         if (el.children.length !== 0) {
@@ -50,7 +54,7 @@
         var baseString = el.innerHTML.split('');
         var replacement = "";
         baseString.forEach(function(c) {
-            replacement += "<span data-ch='" + c + "'>" + c + "</span>"
+            replacement += newPlaceholder(c);
         });
         
         el.innerHTML = replacement;
@@ -128,12 +132,38 @@
     }
 
     exports.setText = function(el, text) {
+
+        if ( typeof text != "string" ) {
+            console.error("scramble.setText: text must be a string, got: " + typeof text);
+            return;
+        }
+
         if ( !hasClass(el, "js-scramble") ) {
             scaffold(el);
         }
+
         var actors = el.children;
         for ( var i = 0; i < actors.length; ++i ) {
             actors[i].dataset.ch = text[i] || "&nbsp;";
+        }
+    }
+
+    exports.createEmpty = function(el, length) {
+
+        if ( typeof length != "number" ) {
+            console.error("scramble.createEmpty: length must be a number, got: " + typeof length);
+            return;
+        }
+
+        var components = "";
+        for ( var i = 0; i < length; ++ i ) {
+            components += newPlaceholder("&nbsp;");
+        }
+
+        el.innerHTML = components;
+        
+        if ( !hasClass(el, "js-scramble") ) {
+            el.className += " js-scramble";
         }
     }
 
@@ -152,13 +182,13 @@
                     exports.descramble(el);
                 });
             } else if ( action == "setText" ) {
-                if ( typeof arg != "string" ) {
-                    console.error("scramble.setText: arg must be a string, got: " + typeof(arg));
-                } else {
-                    els.forEach(function(el) {
-                        exports.setText(el, arg);
-                    });
-                }
+                els.forEach(function(el) {
+                    exports.setText(el, arg);
+                });
+            } else if ( action == "createEmpty" ) {
+                els.forEach(function(el) {
+                    exports.createEmpty(el, arg);
+                });
             } else if ( action == "export" ) {
                 return exports;
             } else {

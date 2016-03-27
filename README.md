@@ -34,7 +34,7 @@ When a scramblejs function is called on a DOMElement for the first time,
 certain changes take place. First, the class 'js-scramble' is added to the element.
 Also every single character inside the element is replaced with a span element.
 
-The library's interface consists of 3 routines.   
+The library's interface consists of the following routines.   
 
 
 * **scramble.enscramble(&lt;DOMElement&gt;)**  
@@ -50,6 +50,10 @@ text, then it will be truncated to the length of the original text. If the argum
 is smaller than the original text, then it will be right padded with non-breaking space
 (&amp;nbsp; or \u00A0 in unicode).  
 
+* **scramble.createEmpty(&lt;DOMElement&gt;, length)**  
+Creates an empty sequence of chars that is `length` long. This lets you size a particular element for
+a certain text, without having to manually edit the markup.  
+
 The jQuery interface is a single method:  
 
 **$('&lt;selector&gt;').scramble(action[, argument])**
@@ -60,6 +64,7 @@ action can be one of the following strings:
 * enscramble  
 * descramble  
 * setText  
+* createEmpty 
 * export  
 
 These action represent the library functions described above, along with one more called export.
@@ -72,14 +77,16 @@ global namespace ). Have some example code:
 var p = document.querySelector('p');
 
 scramble.enscramble(p);
-scramble.setText("howdy");
+scramble.setText(p, "howdy");
 scramble.descramble(p);
+scramble.createEmpty(p, "let me resize this".length)
 
 /* with jQuery */
 
 $('p').scramble("enscramble"); // same as $('p').scramble()
 $('p').scramble("setText", "howdy");
 $('p').scramble("descramble");
+$('p').scramble("createEmpty", "resize this plz".length);
 
 var scramble = $('p').scramble("export");
 scramble.enscramble // [Function enscramble]
@@ -88,6 +95,7 @@ scramble.enscramble // [Function enscramble]
 ## Todo
 
 * polish the code
+* improve scramble.createEmpty to consider any previous text. maybe add a scramble.replaceText that combines scramble.createEmtpy & scramble.setText ?  
 * write a complete build system ( with support for minification )
 
 ## Tip
