@@ -37,26 +37,26 @@ Also every single character inside the element is replaced with a span element.
 The library's interface consists of the following routines.   
 
 
-* **scramble.enscramble(&lt;DOMElement&gt;)**  
+* **scramble.enscramble(el)**  
 Applies the scramble animation.  
 
-* **scramble.descramble(&lt;DOMElement&gt;)**  
+* **scramble.descramble(el)**  
 Removes the scramble by scrambling it back to original text. scramble-ception.
 
-* **scramble.setText(&lt;DOMElement&gt;, text)**  
+* **scramble.setText(el, text)**  
 Sets the text inside the DOMElement. Note that the length of text cannot exceed
 the length of the original text. If the `text` argument is longer than the original
 text, then it will be truncated to the length of the original text. If the argument
 is smaller than the original text, then it will be right padded with non-breaking space
 (&amp;nbsp; or \u00A0 in unicode).  
 
-* **scramble.createEmpty(&lt;DOMElement&gt;, length)**  
+* **scramble.createEmpty(el, length)**  
 Creates an empty sequence of chars that is `length` long. This lets you size a particular element for
 a certain text, without having to manually edit the markup.  
 
 The jQuery interface is a single method:  
 
-**$('&lt;selector&gt;').scramble(action[, argument])**
+**$('selector').scramble(action[, argument])**
 
 
 action can be one of the following strings:  
