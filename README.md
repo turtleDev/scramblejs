@@ -89,7 +89,7 @@ $('p').scramble("descramble");
 $('p').scramble("createEmpty", "resize this plz".length);
 
 var scramble = $('p').scramble("export");
-scramble.enscramble // [Function enscramble]
+scramble.enscramble // [Function]
 ```
 
 ## Todo
