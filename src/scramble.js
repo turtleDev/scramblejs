@@ -103,32 +103,36 @@
                 var n = getRandomValue(MIN_FLIP, MAX_FLIP);
                 var ch = getRandomChars(n);
                 var interval = getRandomValue(MIN_INTERVAL, MAX_INTERVAL);
-                var id = setInterval(function() {
-                    cb(actor, ch, id);
+                setTimeout(function() {
+                    cb(actor, ch, interval);
                 }, interval);
             }, delay);
         });
     }
 
     exports.enscramble = function(el) {
-        queueAnimation(el, function(actor, chars, id) {
-            if ( chars.length == 0 ) {
-                clearInterval(id);
-                return;
-            }
+        function _enscramble(actor, chars, interval) {
+            if ( chars.length == 0 ) return
             actor.innerHTML = chars.pop();
-        });
+            setTimeout(function() {
+                _enscramble(actor, chars, interval);
+            }, interval);
+        }
+        queueAnimation(el, _enscramble);
     }
 
     exports.descramble = function(el) {
-        queueAnimation(el, function(actor, chars, id) {
+        function _descramble(actor, chars, interval) {
             if ( chars.length == 0 ) {
-                clearInterval(id);
                 actor.innerHTML = actor.dataset.ch;
                 return;
             }
             actor.innerHTML = chars.pop();
-        });
+            setTimeout(function() {
+                _descramble(actor, chars, interval);
+            }, interval);
+        }
+        queueAnimation(el, _descramble);
     }
 
     exports.setText = function(el, text) {
