@@ -52,8 +52,27 @@ is smaller than the original text, then it will be right padded with non-breakin
 
 * **scramble.createEmpty(el, length)**  
 Creates an empty sequence of chars that is `length` long. This lets you size a particular element for
-a certain text, without having to manually edit the markup.  
+a certain text, without having to manually edit the markup.
 
+* **scramble.setConfig(config)**  
+Updates the animation parameters.
+Config must be an object with the following properties:
+    * delay - inital delay(in ms)
+    * interval - time between character switches(in ms)
+    * flip - the number of character switches
+  
+each field can either have a number as a value, or an object containing a `min` and `max` property.
+for example:
+```js
+scramble.setConfig({delay: 20});
+scramble.setConfig({flip: {min: 5, max: 10}});
+scramble.setConfig({delay: 1, flip: 1, interval: 1});
+```
+
+note: This method is not exposed on the jQuery interface, because its better kept as a static method, and there's no
+non-ugly way of doing this in jQuery. Feel free to submit a Pull Request if you want it though :)
+
+## jQuery interface
 The jQuery interface is a single method:  
 
 **$('selector').scramble(action[, argument])**
@@ -97,6 +116,8 @@ scramble.enscramble // [Function]
 * polish the code
 * improve scramble.createEmpty to consider any previous text. maybe add a scramble.replaceText that combines scramble.createEmtpy & scramble.setText ?  
 * write a complete build system ( with support for minification )
+* add more documentation
+* maybe add a lock, or system to sequence animations (like in case `descramble` is called before `enscramble` finishes)
 
 ## Tip
 use monospace fonts for the best effect
