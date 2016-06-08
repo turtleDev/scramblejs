@@ -41,11 +41,11 @@
 
     var chars = [{{#each symbols}} "{{this}}", {{/each}}];
 
-    function newPlaceholder(ch) {
+    function placeholder(ch) {
         return "<span data-ch='" + ch + "'>" + ch + "</span>";
     }
 
-    function scaffold(el) {
+    function scaffoldElement(el) {
 
         if (el.children.length !== 0) {
             return;
@@ -54,29 +54,33 @@
         var baseString = el.innerHTML.split('');
         var replacement = "";
         baseString.forEach(function(c) {
-            replacement += newPlaceholder(c);
+            replacement += placeholder(c);
         });
 
         el.innerHTML = replacement;
         el.className += " js-scramble";
     }
 
-    function _getRandomChar() {
-        var index = Math.floor(Math.random() * chars.length);
-        return chars[index];
-    }
-
-    function getRandomChars(n) {
-        /* get a list of n random chars */
+    /**
+     * randomChars(n)
+     *
+     * build a list of random characters
+     */
+    function randomChars(n) {
         var list = [];
         for ( var i = 0; i < n; ++i ) {
-            list.push(_getRandomChar());
+            var index = Math.floor(Math.random() * chars.length);
+            list.push(chars[index]);
         }
         return list;
     }
 
-    function getRandomValue(min, max) {
-        /* get a list of random values between min and max */
+    /**
+     * randomValue(min, max)
+     *
+     * get a random value between min and mix
+     */
+    function randomValue(min, max) {
         return min + Math.floor(Math.random() * (max - min));
     }
 
@@ -84,25 +88,37 @@
         return el.className.indexOf(cls) != -1;
     }
 
+    /**
+     * domListToArray(domList)
+     *
+     * convert DOM list to an Array. Doesn't work for for IE8 or less
+     */
     function domListToArray(dl) {
-        /* convert DOM list to an Array. Doesn't work for for IE8 or less */
-        return [].slice.call(dl, 0);
+        return Array.prototype.slice.call(dl, 0);
     }
 
+    /**
+     * queueAnimation(el, cb)
+     *
+     * This function is used to schedule animation for every element.
+     * cb is the function that is responsible for update the element,
+     * it takes the args (actor, ch, interval), where actor is the
+     * dom element, ch is a list of characters, and interval is the
+     * time between the character switches.
+     */
     function queueAnimation(el, cb) {
-        /* cb takes the arguments (el, chars, id) */
 
         if ( !hasClass(el, "js-scramble") ) {
-            scaffold(el);
+            scaffoldElement(el);
         }
 
         var actors = domListToArray(el.children);
         actors.forEach(function(actor) {
-            var delay = getRandomValue(MIN_DELAY, MAX_DELAY);
+            var delay = randomValue(MIN_DELAY, MAX_DELAY);
             setTimeout(function() {
-                var n = getRandomValue(MIN_FLIP, MAX_FLIP);
-                var ch = getRandomChars(n);
-                var interval = getRandomValue(MIN_INTERVAL, MAX_INTERVAL);
+                var n = randomValue(MIN_FLIP, MAX_FLIP);
+                var ch = randomChars(n);
+                var interval = randomValue(MIN_INTERVAL, MAX_INTERVAL);
                 setTimeout(function() {
                     cb(actor, ch, interval);
                 }, interval);
@@ -143,7 +159,7 @@
         }
 
         if ( !hasClass(el, "js-scramble") ) {
-            scaffold(el);
+            scaffoldElement(el);
         }
 
         var actors = el.children;
@@ -161,7 +177,7 @@
 
         var components = "";
         for ( var i = 0; i < length; ++ i ) {
-            components += newPlaceholder("&nbsp;");
+            components += placeholder("&nbsp;");
         }
 
         el.innerHTML = components;
