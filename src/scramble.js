@@ -30,14 +30,14 @@
 (function(module) {
     var exports = Object.create(null);
 
-    var MIN_FLIP = 1;
-    var MAX_FLIP = 7;
-
-    var MIN_INTERVAL = 70;
-    var MAX_INTERVAL = 140;
-
-    var MIN_DELAY = 10;
-    var MAX_DELAY = 50;
+    var config = {
+        minFlip: 1,
+        maxFlip: 7,
+        minInterval: 70,
+        maxInterval: 140,
+        minDelay: 10,
+        maxDelay: 50
+    };
 
     var chars = [{{#each symbols}} "{{this}}", {{/each}}];
 
@@ -114,11 +114,11 @@
 
         var actors = domListToArray(el.children);
         actors.forEach(function(actor) {
-            var delay = randomValue(MIN_DELAY, MAX_DELAY);
+            var delay = randomValue(config.minDelay, config.maxDelay);
             setTimeout(function() {
-                var n = randomValue(MIN_FLIP, MAX_FLIP);
+                var n = randomValue(config.minFlip, config.maxFlip);
                 var ch = randomChars(n);
-                var interval = randomValue(MIN_INTERVAL, MAX_INTERVAL);
+                var interval = randomValue(config.minInterval, config.maxInterval);
                 setTimeout(function() {
                     cb(actor, ch, interval);
                 }, interval);
@@ -187,6 +187,28 @@
         }
     }
 
+    exports.setConfig = function(newConfig) {
+        if ( typeof newConfig !== 'object' || newConfig.hasOwnProperty('length') ) {
+            console.error('scramble: config: was expecting an object, got ' + newConfig);
+            return;
+        }
+        var validProps = ['delay', 'flip', 'interval'];
+        for ( var prop in newConfig ) {
+            var p = prop[0].toUpperCase() + prop.slice(1);
+            if ( validProps.indexOf(prop) == -1 ) {
+                console.warn('scramble: config: unrecognized config parameter: ' + prop);
+            } else if ( typeof newConfig[prop] === 'number' ) {
+                config['min'+p] = newConfig[prop];
+                config['max'+p] = newConfig[prop];
+            } else if ( typeof newConfig[prop] === 'object' ) {
+                config['min'+p] = newConfig[prop].min || config['min'+p];
+                config['max'+p] = newConfig[prop].max || config['max'+p];
+            } else {
+                console.warn('scramble: config: config field values must be a number or an object')
+            }
+        }
+    }
+
     if ( module.jQuery ) {
         module.jQuery.fn.scramble = function(action, arg) {
 
@@ -194,7 +216,11 @@
             var els = this.get();
 
             var action = action || "enscramble";
-            if ( exports[action] ) {
+            /**
+             * methods that are not exposed from the jQuery interface
+             */
+            var blacklist = ['setConfig']
+            if ( exports[action] && blacklist.indexOf(action) == -1) {
                 els.forEach(function(el) {
                     exports[action](el, arg);
                 });
