@@ -115,7 +115,6 @@ scramble.enscramble // [Function]
 
 * polish the code
 * improve scramble.createEmpty to consider any previous text. maybe add a scramble.replaceText that combines scramble.createEmtpy & scramble.setText ?  
-* write a complete build system ( with support for minification )
 * add more documentation
 * maybe add a lock, or system to sequence animations (like in case `descramble` is called before `enscramble` finishes)
 

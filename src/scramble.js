@@ -1,5 +1,4 @@
 /**
- *
  * The MIT License
  *
  * Copyright (c) 2016 Saravjeet 'Aman' Singh
