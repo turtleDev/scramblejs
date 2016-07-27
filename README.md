@@ -16,9 +16,9 @@ $('<selector>').scramble();
 ```
 
 ## Installation
-* clone this repo
-* run `npm install && npm run build`
-* copy the dist/scramble.js to where ever you need it
+
+To build scramble, you'll need [gulp][gulp]. Simply 
+run `gulp` in the project directory. The built files are kept in `dist/` folder.
 
 ## Manual
 
@@ -127,3 +127,4 @@ MIT
 ## Credits
 The entities.json was taken from whatwg's HTML specification. from [here](https://html.spec.whatwg.org/entities.json) to be exact.  
 
+[gulp]: http://gulpjs.com/
