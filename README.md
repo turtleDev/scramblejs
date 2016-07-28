@@ -17,6 +17,8 @@ $('<selector>').scramble();
 
 ## Installation
 
+run `npm install` to install all the required dependencies.
+
 To build scramble, you'll need [gulp][gulp]. Simply 
 run `gulp` in the project directory. The built files are kept in `dist/` folder.
 
