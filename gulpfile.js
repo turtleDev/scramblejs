@@ -6,6 +6,7 @@ const gulp = require('gulp');
 const handlebars = require('gulp-compile-handlebars');
 const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
+const pump = require('pump');
 
 /**
  * load a bunch of files.
@@ -75,33 +76,32 @@ gulp.task('build', function() {
             }
         };
 
-        return new Promise((resolve, reject) => {
-            gulp.src('src/*.js')
-                .pipe(handlebars(data, options))
-                .pipe(gulp.dest('dist/'))
-                .on('end', resolve)
-        }).then(() => {
-            // find a way to run this in a seperate task
-            return new Promise((resolve, reject) => {
-                // if for some reason uglify() fucks up
-                // you'll need to use pump() to determine what went wrong
-                // look up docs for gulp-uglify
-                const uglifyOpts = {
-                    preserveComments: 'license'
-                };
-                gulp.src('dist/*[!.min].js')
-                    .pipe(uglify(uglifyOpts))
-                    .pipe(rename({suffix: '.min'}))
-                    .pipe(gulp.dest('dist/'))
-                    .on('end', resolve)
-            });
-        });
+        return gulp.src('src/*.js')
+            .pipe(handlebars(data, options))
+            .pipe(gulp.dest('dist/'))
     }).catch((err) => {
 
         throw err;
     });
 });
 
-    
+gulp.task('minify', ['build'], (cb) => {
+    const uglifyOpts = {
+        preserveComments: 'license'
+    };
 
-gulp.task('default', ['build']);
+    /**
+     * gulp-uglify recommends the use of the `pump` module
+     * for better error reporting
+     *
+     * https://github.com/terinjokes/gulp-uglify/tree/master/docs/why-use-pump
+     */
+    pump([
+        gulp.src('dist/*[!.min].js'),
+        uglify(uglifyOpts),
+        rename({suffix: '.min'}),
+        gulp.dest('dist/')
+    ], cb);
+});
+
+gulp.task('default', ['build', 'minify']);
