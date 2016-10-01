@@ -65,7 +65,7 @@
         maxDelay: 50
     };
 
-    var chars = [{{#each symbols}} "{{this}}", {{/each}}];
+    var chars = {{{chars}}};
 
     function placeholder(ch) {
         return "<span data-ch='" + ch + "'>" + ch + "</span>";

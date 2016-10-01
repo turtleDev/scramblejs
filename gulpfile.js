@@ -73,6 +73,15 @@ gulp.task('build', function() {
         const options = {
             compile: {
                 noEscape: true
+            },
+            helpers: {
+                chars: function() {
+                    const result = [];
+                    for ( let i = 0; i < this.symbols.length; ++i ) {
+                        result.push("\"" + this.symbols[i] + "\"");
+                    }
+                    return result;
+                }
             }
         };
 
