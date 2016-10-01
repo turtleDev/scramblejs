@@ -24,10 +24,37 @@
  *
  */
 
-'use strict';
 
-(function(module) {
-    var exports = Object.create(null);
+
+(function(factory, global) {
+
+    "use strict";
+
+    // I like my namespace, like I like my friends. TIGHT!
+    if ( typeof global.module === "object" &&
+         typeof global.module.exports === "object" ) {
+        
+        // this is a commonjs aware system
+        // ... or someone has really gone and done it
+        factory(module, module.exports);
+    } else {
+
+        // we are operating inside a browser environment
+        // ... probably
+        var module = {
+            exports: Object.create(null),
+            jQuery: global.jQuery
+        };
+        global.scramble = module.exports;
+        factory(module, module.exports);
+        if ( module.jQuery ) {
+            delete global.scramble;
+        }
+    }
+    
+})(function(module, exports) {
+    
+    "use strict";
 
     var config = {
         minFlip: 1,
@@ -50,7 +77,7 @@
             return;
         }
 
-        var baseString = el.innerHTML.split('');
+        var baseString = el.innerHTML.split("");
         var replacement = "";
         baseString.forEach(function(c) {
             replacement += placeholder(c);
@@ -127,14 +154,14 @@
 
     exports.enscramble = function(el) {
         function _enscramble(actor, chars, interval) {
-            if ( chars.length == 0 ) return
+            if ( chars.length == 0 ) return;
             actor.innerHTML = chars.pop();
             setTimeout(function() {
                 _enscramble(actor, chars, interval);
             }, interval);
         }
         queueAnimation(el, _enscramble);
-    }
+    };
 
     exports.descramble = function(el) {
         function _descramble(actor, chars, interval) {
@@ -148,7 +175,7 @@
             }, interval);
         }
         queueAnimation(el, _descramble);
-    }
+    };
 
     exports.setText = function(el, text) {
 
@@ -165,7 +192,7 @@
         for ( var i = 0; i < actors.length; ++i ) {
             actors[i].dataset.ch = text[i] || "&nbsp;";
         }
-    }
+    };
 
     exports.createEmpty = function(el, length) {
 
@@ -184,41 +211,43 @@
         if ( !hasClass(el, "js-scramble") ) {
             el.className += " js-scramble";
         }
-    }
+    };
 
     exports.setConfig = function(newConfig) {
-        if ( typeof newConfig !== 'object' || newConfig.hasOwnProperty('length') ) {
-            console.error('scramble: config: was expecting an object, got ' + newConfig);
+        if ( typeof newConfig !== "object" || newConfig.hasOwnProperty("length") ) {
+            console.error("scramble: config: was expecting an object, got " + newConfig);
             return;
         }
-        var validProps = ['delay', 'flip', 'interval'];
+        var validProps = ["delay", "flip", "interval"];
         for ( var prop in newConfig ) {
             var p = prop[0].toUpperCase() + prop.slice(1);
             if ( validProps.indexOf(prop) == -1 ) {
-                console.warn('scramble: config: unrecognized config parameter: ' + prop);
-            } else if ( typeof newConfig[prop] === 'number' ) {
-                config['min'+p] = newConfig[prop];
-                config['max'+p] = newConfig[prop];
-            } else if ( typeof newConfig[prop] === 'object' ) {
-                config['min'+p] = newConfig[prop].min || config['min'+p];
-                config['max'+p] = newConfig[prop].max || config['max'+p];
+                console.warn("scramble: config: unrecognized config parameter: " + prop);
+            } else if ( typeof newConfig[prop] === "number" ) {
+                config["min"+p] = newConfig[prop];
+                config["max"+p] = newConfig[prop];
+            } else if ( typeof newConfig[prop] === "object" ) {
+                config["min"+p] = newConfig[prop].min || config["min"+p];
+                config["max"+p] = newConfig[prop].max || config["max"+p];
             } else {
-                console.warn('scramble: config: config field values must be a number or an object')
+                console.warn("scramble: config: config field values must be a number or an object");
             }
         }
-    }
+    };
 
     if ( module.jQuery ) {
         module.jQuery.fn.scramble = function(action, arg) {
 
+            action = action || "enscramble";
+
             /* get list of selected DOM elements */
             var els = this.get();
 
-            var action = action || "enscramble";
             /**
              * methods that are not exposed from the jQuery interface
              */
-            var blacklist = ['setConfig']
+            var blacklist = ["setConfig"];
+
             if ( exports[action] && blacklist.indexOf(action) == -1) {
                 els.forEach(function(el) {
                     exports[action](el, arg);
@@ -228,10 +257,7 @@
             } else {
                 console.error("scramble: unrecognized operation: " + action);
             }
-
             return this;
-        }
-    } else {
-        module.scramble = exports
+        };
     }
-})(this)
+}, typeof window !== "undefined"?window:this);
