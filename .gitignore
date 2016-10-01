@@ -6,6 +6,7 @@ dist
 
 # editor specific files
 *.swp
+\#*\#
 
 # misc
 scribble
