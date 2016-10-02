@@ -113,4 +113,8 @@ gulp.task('minify', ['build'], (cb) => {
     ], cb);
 });
 
-gulp.task('default', ['build', 'minify']);
+gulp.task('watch', () => {
+    gulp.watch('src/*.js', ['build', 'minify'])
+});
+
+gulp.task('default', ['build', 'minify', 'watch']);
