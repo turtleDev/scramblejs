@@ -45,11 +45,8 @@
             exports: Object.create(null),
             jQuery: global.jQuery
         };
-        global.scramble = module.exports;
         factory(module, module.exports);
-        if ( module.jQuery ) {
-            delete global.scramble;
-        }
+        global.scramble = module.exports;
     }
     
 })(function(module, exports) {
@@ -235,29 +232,4 @@
         }
     };
 
-    if ( module.jQuery ) {
-        module.jQuery.fn.scramble = function(action, arg) {
-
-            action = action || "enscramble";
-
-            /* get list of selected DOM elements */
-            var els = this.get();
-
-            /**
-             * methods that are not exposed from the jQuery interface
-             */
-            var blacklist = ["setConfig"];
-
-            if ( exports[action] && blacklist.indexOf(action) == -1) {
-                els.forEach(function(el) {
-                    exports[action](el, arg);
-                });
-            } else if ( action == "export" ) {
-                return exports;
-            } else {
-                console.error("scramble: unrecognized operation: " + action);
-            }
-            return this;
-        };
-    }
-}, typeof window !== "undefined"?window:this);
+}, (typeof window !== "undefined")?window:this);

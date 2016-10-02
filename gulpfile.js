@@ -80,7 +80,7 @@ gulp.task('build', function() {
                     for ( let i = 0; i < this.symbols.length; ++i ) {
                         result.push("\"" + this.symbols[i] + "\"");
                     }
-                    return result;
+                    return "[" + result.toString() + "]";
                 }
             }
         };
