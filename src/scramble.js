@@ -56,8 +56,8 @@
     var config = {
         minFlip: 1,
         maxFlip: 7,
-        minInterval: 70,
-        maxInterval: 140,
+        minInterval: 150,
+        maxInterval: 100,
         minDelay: 10,
         maxDelay: 50
     };
@@ -70,7 +70,7 @@
 
     function scaffoldElement(el) {
 
-        if (el.children.length !== 0) {
+        if ( hasClass(el, "js-scramble") ) {
             return;
         }
 
@@ -81,7 +81,10 @@
         });
 
         el.innerHTML = replacement;
-        el.className += " js-scramble";
+
+        var classes = el.className.split(" ");
+        classes.push("js-scramble");
+        el.className = classes.join(" ");
     }
 
     /**
@@ -124,16 +127,15 @@
      * queueAnimation(el, cb)
      *
      * This function is used to schedule animation for every element.
-     * cb is the function that is responsible for update the element,
-     * it takes the args (actor, ch, interval), where actor is the
-     * dom element, ch is a list of characters, and interval is the
-     * time between the character switches.
+     * 
+     * cb is the function that is responsible for updating the
+     * respective elements.  it takes the args (actor, ch, interval),
+     * where actor is the dom element, ch is a list of characters, and
+     * interval is the time between the character switches.
      */
     function queueAnimation(el, cb) {
 
-        if ( !hasClass(el, "js-scramble") ) {
-            scaffoldElement(el);
-        }
+        scaffoldElement(el)
 
         var actors = domListToArray(el.children);
         actors.forEach(function(actor) {
@@ -181,10 +183,7 @@
             return;
         }
 
-        if ( !hasClass(el, "js-scramble") ) {
-            scaffoldElement(el);
-        }
-
+        scaffoldElement(el);
         var actors = el.children;
         for ( var i = 0; i < actors.length; ++i ) {
             actors[i].dataset.ch = text[i] || "&nbsp;";
@@ -231,5 +230,99 @@
             }
         }
     };
+
+
+
+    var ScrambleBox = function(element) {
+        if ( !(this instanceof ScrambleBox) ) {
+            throw Error('objects must be constructed using the new keyword');
+        }
+
+        this._origin = Promise.resolve(element);
+        this._config = config;
+    };
+    
+    exports.select = function(sel) {
+        var el = document.querySelector(sel);
+        return new ScrambleBox(el);
+    };
+    
+    ScrambleBox.prototype.enscramble = function() {
+        
+        var p = this._origin.then(function(el) {
+            
+            scaffoldElement(el);
+            var count = el.children.length;
+            console.log(count);
+            return new Promise(function(resolve, reject) {
+                
+                function _enscramble(actor, chars, interval) {
+                    if ( chars.length === 0 ) {
+                        --count;
+                        if ( count === 0 ) {
+                            resolve(el);
+                        }
+                        return;
+                    }
+                    actor.innerHTML = chars.pop();
+                    setTimeout(function() {
+                        _enscramble(actor, chars, interval);
+                    }, interval);
+                }
+                queueAnimation(el, _enscramble);
+            });
+        });
+
+        return new ScrambleBox(p);
+    };
+
+    ScrambleBox.prototype.descramble = function() {
+
+        var p = this._origin.then(function(el) {
+
+            scaffoldElement(el);
+            var count = el.children.length;
+            return new Promise(function(resolve, reject) {
+
+                function _descramble(actor, chars, interval) {
+                    if ( chars.length === 0 ) {
+                        actor.innerHTML = actor.dataset.ch;
+                        --count;
+                        if ( count === 0 ) {
+                            resolve(el);
+                        }
+                        return;
+                    }
+                    actor.innerHTML = chars.pop();
+                    setTimeout(function() {
+                        _descramble(actor, chars, interval);
+                    }, interval);
+                }
+                queueAnimation(el, _descramble);
+            });
+        });
+
+        return new ScrambleBox(p);
+    };
+                
+
+    ScrambleBox.prototype.then = function(cb) {
+
+        var p = this._origin.then(cb);
+        return new ScrambleBox(p);
+    };
+
+    ScrambleBox.prototype.wait = function(duration) {
+        var p = this._origin.then(function(el) {
+            return new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    resolve(el);
+                }, duration);
+            });
+        });
+        return new ScrambleBox(p);
+    };
+
+    exports.s = ScrambleBox;
 
 }, (typeof window !== "undefined")?window:this);
