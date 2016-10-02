@@ -30,6 +30,10 @@
 
     "use strict";
 
+    if ( global.Promise === undefined ) {
+        throw new Error("scramblejs requires the Promise API");
+    }
+
     // I like my namespace, like I like my friends. TIGHT!
     if ( typeof global.module === "object" &&
          typeof global.module.exports === "object" ) {
