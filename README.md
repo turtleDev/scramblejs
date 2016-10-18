@@ -2,6 +2,10 @@
 
 > text animation library cum jQuery plugin. Inspired by [codedoodl.es](http://codedoodl.es)
 
+## NOTE
+The library is going an API change right now, if you wish to use scramblejs, use the code from
+legacy branch
+
 ## Demo
 <img height="80px" src="data/demo.gif">
 
