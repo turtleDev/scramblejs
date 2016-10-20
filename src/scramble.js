@@ -24,19 +24,17 @@
  *
  */
 
+"use strict";
+
+(function(factory) {
 
 
-(function(factory, global) {
-
-    "use strict";
-
-    if ( global.Promise === undefined ) {
+    if ( typeof Promise === "undefined" ) {
         throw new Error("scramblejs requires the Promise API");
     }
 
-    // I like my namespace, like I like my friends. TIGHT!
-    if ( typeof global.module === "object" &&
-         typeof global.module.exports === "object" ) {
+    if ( typeof module === "object" &&
+         typeof module.exports === "object" ) {
         
         // this is a commonjs aware system
         // ... or someone has really gone and done it
@@ -47,16 +45,13 @@
         // ... probably
         var module = {
             exports: Object.create(null),
-            jQuery: global.jQuery
         };
         factory(module, module.exports);
-        global.scramble = module.exports;
+        window.scramble = module.exports;
     }
     
 })(function(module, exports) {
     
-    "use strict";
-
     var config = {
         minFlip: 1,
         maxFlip: 7,
@@ -326,7 +321,4 @@
         });
         return new ScrambleBox(p);
     };
-
-    exports.s = ScrambleBox;
-
-}, (typeof window !== "undefined")?window:this);
+});
