@@ -24,17 +24,18 @@
  *
  */
 
-"use strict";
+'use strict';
+
+/* global Promise */
 
 (function(factory) {
 
-
-    if ( typeof Promise === "undefined" ) {
-        throw new Error("scramblejs requires the Promise API");
+    if ( typeof Promise === 'undefined' ) {
+        throw new Error('scramblejs requires the Promise API');
     }
 
-    if ( typeof module === "object" &&
-         typeof module.exports === "object" ) {
+    if ( typeof module === 'object' &&
+         typeof module.exports === 'object' ) {
         
         // this is a commonjs aware system
         // ... or someone has really gone and done it
@@ -61,66 +62,71 @@
         maxDelay: 50
     };
 
-    var chars = {{{chars}}};
+    // var chars = {{{chars}}};
+    var chars = [];
 
-    function placeholder(ch) {
-        return "<span data-ch='" + ch + "'>" + ch + "</span>";
-    }
+    var clone = function(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    };
 
-    function scaffoldElement(el) {
+    var placeholder = function(ch) {
+        return '<span data-ch="' + ch + '">' + ch + '</span>';
+    };
 
-        if ( hasClass(el, "js-scramble") ) {
+    var scaffoldElement = function(el) {
+
+        if ( hasClass(el, 'js-scramble') ) {
             return;
         }
 
-        var baseString = el.innerHTML.split("");
-        var replacement = "";
+        var baseString = el.innerHTML.split('');
+        var replacement = '';
         baseString.forEach(function(c) {
             replacement += placeholder(c);
         });
 
         el.innerHTML = replacement;
 
-        var classes = el.className.split(" ");
-        classes.push("js-scramble");
-        el.className = classes.join(" ");
-    }
+        var classes = el.className.split(' ');
+        classes.push('js-scramble');
+        el.className = classes.join(' ');
+    };
 
     /**
      * randomChars(n)
      *
      * build a list of random characters
      */
-    function randomChars(n) {
+    var randomChars = function(n) {
         var list = [];
         for ( var i = 0; i < n; ++i ) {
             var index = Math.floor(Math.random() * chars.length);
             list.push(chars[index]);
         }
         return list;
-    }
+    };
 
     /**
      * randomValue(min, max)
      *
      * get a random value between min and mix
      */
-    function randomValue(min, max) {
+    var randomValue = function(min, max) {
         return min + Math.floor(Math.random() * (max - min));
-    }
+    };
 
-    function hasClass(el, cls) {
+    var hasClass = function(el, cls) {
         return el.className.indexOf(cls) != -1;
-    }
+    };
 
     /**
      * domListToArray(domList)
      *
      * convert DOM list to an Array. Doesn't work for for IE8 or less
      */
-    function domListToArray(dl) {
+    var domListToArray = function(dl) {
         return Array.prototype.slice.call(dl, 0);
-    }
+    };
 
     /**
      * queueAnimation(el, cb)
@@ -132,9 +138,9 @@
      * where actor is the dom element, ch is a list of characters, and
      * interval is the time between the character switches.
      */
-    function queueAnimation(el, cb) {
+    var queueAnimation = function(el, cb) {
 
-        scaffoldElement(el)
+        scaffoldElement(el);
 
         var actors = domListToArray(el.children);
         actors.forEach(function(actor) {
@@ -148,114 +154,55 @@
                 }, interval);
             }, delay);
         });
-    }
-
-    exports.enscramble = function(el) {
-        function _enscramble(actor, chars, interval) {
-            if ( chars.length == 0 ) return;
-            actor.innerHTML = chars.pop();
-            setTimeout(function() {
-                _enscramble(actor, chars, interval);
-            }, interval);
-        }
-        queueAnimation(el, _enscramble);
     };
 
-    exports.descramble = function(el) {
-        function _descramble(actor, chars, interval) {
-            if ( chars.length == 0 ) {
-                actor.innerHTML = actor.dataset.ch;
-                return;
-            }
-            actor.innerHTML = chars.pop();
-            setTimeout(function() {
-                _descramble(actor, chars, interval);
-            }, interval);
-        }
-        queueAnimation(el, _descramble);
-    };
+    var setConfig = function(config, newConfig) {
 
-    exports.setText = function(el, text) {
-
-        if ( typeof text != "string" ) {
-            console.error("scramble.setText: text must be a string, got: " + typeof text);
+        if ( typeof newConfig !== 'object' || newConfig.hasOwnProperty('length') ) {
+            console.error('scramble: config: was expecting an object, got ' + newConfig);
             return;
         }
 
-        scaffoldElement(el);
-        var actors = el.children;
-        for ( var i = 0; i < actors.length; ++i ) {
-            actors[i].dataset.ch = text[i] || "&nbsp;";
-        }
-    };
+        var validProps = ['delay', 'flip', 'interval'];
 
-    exports.createEmpty = function(el, length) {
-
-        if ( typeof length != "number" ) {
-            console.error("scramble.createEmpty: length must be a number, got: " + typeof length);
-            return;
-        }
-
-        var components = "";
-        for ( var i = 0; i < length; ++ i ) {
-            components += placeholder("&nbsp;");
-        }
-
-        el.innerHTML = components;
-
-        if ( !hasClass(el, "js-scramble") ) {
-            el.className += " js-scramble";
-        }
-    };
-
-    exports.setConfig = function(newConfig) {
-        if ( typeof newConfig !== "object" || newConfig.hasOwnProperty("length") ) {
-            console.error("scramble: config: was expecting an object, got " + newConfig);
-            return;
-        }
-        var validProps = ["delay", "flip", "interval"];
         for ( var prop in newConfig ) {
             var p = prop[0].toUpperCase() + prop.slice(1);
             if ( validProps.indexOf(prop) == -1 ) {
-                console.warn("scramble: config: unrecognized config parameter: " + prop);
-            } else if ( typeof newConfig[prop] === "number" ) {
-                config["min"+p] = newConfig[prop];
-                config["max"+p] = newConfig[prop];
-            } else if ( typeof newConfig[prop] === "object" ) {
-                config["min"+p] = newConfig[prop].min || config["min"+p];
-                config["max"+p] = newConfig[prop].max || config["max"+p];
+                console.warn('scramble: config: unrecognized config parameter: ' + prop);
+            } else if ( typeof newConfig[prop] === 'number' ) {
+                config['min'+p] = newConfig[prop];
+                config['max'+p] = newConfig[prop];
+            } else if ( typeof newConfig[prop] === 'object' ) {
+                config['min'+p] = newConfig[prop].min || config['min'+p];
+                config['max'+p] = newConfig[prop].max || config['max'+p];
             } else {
-                console.warn("scramble: config: config field values must be a number or an object");
+                console.warn('scramble: config: config field values must be a number or an object');
             }
         }
+
+        return config;
     };
 
+    var Grinder = function(element) {
 
-
-    var ScrambleBox = function(element) {
-        if ( !(this instanceof ScrambleBox) ) {
+        if ( !(this instanceof Grinder) ) {
             throw Error('objects must be constructed using the new keyword');
         }
 
         this._origin = Promise.resolve(element);
-        this._config = config;
+        this._config = clone(config);
     };
     
-    exports.select = function(sel) {
-        var el = document.querySelector(sel);
-        return new ScrambleBox(el);
-    };
-    
-    ScrambleBox.prototype.enscramble = function() {
+    Grinder.prototype.enscramble = function() {
         
         var p = this._origin.then(function(el) {
             
             scaffoldElement(el);
             var count = el.children.length;
-            console.log(count);
             return new Promise(function(resolve, reject) {
                 
                 function _enscramble(actor, chars, interval) {
+
                     if ( chars.length === 0 ) {
                         --count;
                         if ( count === 0 ) {
@@ -263,19 +210,21 @@
                         }
                         return;
                     }
+
                     actor.innerHTML = chars.pop();
                     setTimeout(function() {
                         _enscramble(actor, chars, interval);
                     }, interval);
                 }
+
                 queueAnimation(el, _enscramble);
             });
         });
 
-        return new ScrambleBox(p);
+        return new Grinder(p);
     };
 
-    ScrambleBox.prototype.descramble = function() {
+    Grinder.prototype.descramble = function() {
 
         var p = this._origin.then(function(el) {
 
@@ -284,6 +233,7 @@
             return new Promise(function(resolve, reject) {
 
                 function _descramble(actor, chars, interval) {
+
                     if ( chars.length === 0 ) {
                         actor.innerHTML = actor.dataset.ch;
                         --count;
@@ -301,24 +251,112 @@
             });
         });
 
-        return new ScrambleBox(p);
+        return new Grinder(p);
     };
                 
 
-    ScrambleBox.prototype.then = function(cb) {
+    Grinder.prototype.then = function(cb) {
 
         var p = this._origin.then(cb);
-        return new ScrambleBox(p);
+        return new Grinder(p);
     };
 
-    ScrambleBox.prototype.wait = function(duration) {
+    Grinder.prototype.catch = function(cb) {
+
+        var p = this._origin.then(null, cb);
+        return new Grinder(p);
+    };
+
+    Grinder.prototype.wait = function(duration) {
+
         var p = this._origin.then(function(el) {
+
             return new Promise(function(resolve, reject) {
+
                 setTimeout(function() {
                     resolve(el);
                 }, duration);
             });
         });
-        return new ScrambleBox(p);
+        return new Grinder(p);
+    };
+
+    Grinder.prototype.setConfig = function(newConfig) {
+
+        var p = this._origin.then(function(el) {
+
+            return new Promise(function(resolve, reject) {
+
+                setConfig(this._config, newConfig);
+                resolve(el);
+            });
+        });
+
+        return new Grinder(p);
+    };
+
+    Grinder.prototype.setText = function(text) {
+
+        var p = this._origin.then(function(el) {
+            
+            return new Promise(function(resolve, reject) {
+
+                if ( typeof text !== 'string' ) {
+                    console.error('scramble: setText: text must be a string, got: ' + typeof text);
+                    return reject('error');
+                }
+
+                scaffoldElement(el);
+
+                var actors = el.children;
+                for ( var i = 0; i < actors.length; ++i ) {
+                    actors[i].dataset.ch = text[i] || '&nbsp;';
+                }
+
+                return resolve(el);
+            });
+        });
+
+        return new Grinder(p);
+    };
+
+    Grinder.prototype.createEmpty = function(length) {
+
+        var p = this._origin.then(function(el) {
+
+            return new Promise(function(resolve, reject) {
+
+                if ( typeof length != 'number' ) {
+                    console.error('scramble: createEmpty: length must be a number, got: ' + typeof length);
+                    return;
+                }
+
+                var components = '';
+                for ( var i = 0; i < length; ++ i ) {
+                    components += placeholder('&nbsp;');
+                }
+
+                el.innerHTML = components;
+
+                if ( !hasClass(el, 'js-scramble') ){
+                    el.className += ' js-scramble';
+                }
+
+                return resolve(el);
+            });
+        });
+
+        return new Grinder(p);
+    };
+
+    exports.select = function(sel) {
+
+        var el = document.querySelector(sel);
+        return new Grinder(el);
+    };
+
+    exports.setConfigGlobal = function(newConfig) {
+
+        setConfig(config, newConfig);
     };
 });
