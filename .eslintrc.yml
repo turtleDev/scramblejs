@@ -11,9 +11,11 @@ rules:
     - unix
   quotes:
     - error
-    - double
+    - single
   semi:
     - error
     - always
   no-console:
+    - off
+  no-unused-vars:
     - off
