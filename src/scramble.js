@@ -28,7 +28,7 @@
 
 /* global Promise */
 
-(function(factory) {
+;(function(factory) {
 
     if ( typeof Promise === 'undefined' ) {
         throw new Error('scramblejs requires the Promise API');
@@ -39,19 +39,24 @@
         
         // this is a commonjs aware system
         // ... or someone has really gone and done it
-        factory(module, module.exports);
+        module.exports = factory();
+    } else if ( typeof define === 'function' ) {
+
+        // this is _probably_ an AMD system
+        define([], factory) 
     } else {
 
         // we are operating inside a browser environment
         // ... probably
-        var module = {
-            exports: Object.create(null),
-        };
-        factory(module, module.exports);
-        window.scramble = module.exports;
+        window.scramble = factory();
     }
     
-})(function(module, exports) {
+})(function() {
+
+    var exports = {}
+    var module = {
+        exports: exports
+    };
     
     var config = {
         minFlip: 1,
@@ -359,4 +364,6 @@
 
         setConfig(config, newConfig);
     };
+
+    return module.exports;
 });
