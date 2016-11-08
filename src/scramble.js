@@ -53,7 +53,7 @@
     
 })(function() {
 
-    var exports = {};
+    var exports = Object.create(null);
     var module = {
         exports: exports
     };
@@ -267,7 +267,7 @@
 
     Grinder.prototype.catch = function(cb) {
 
-        var p = this._origin.then(null, cb);
+        var p = this._origin.catch(cb);
         return new Grinder(p);
     };
 
@@ -355,7 +355,13 @@
 
     exports.select = function(sel) {
 
-        var el = document.querySelector(sel);
+        var el;
+        if ( sel instanceof Element ) {
+            el = sel;
+        } else {
+            el = document.querySelector(sel);
+        }
+
         return new Grinder(el);
     };
 
