@@ -10,3 +10,6 @@ dist
 
 # misc
 scribble
+
+# npm stuff
+npm-debug.log
