@@ -26,7 +26,7 @@
 
 'use strict';
 
-/* global Promise */
+/* global Promise, define, module, exports, window */
 
 ;(function(factory) {
 
@@ -43,7 +43,7 @@
     } else if ( typeof define === 'function' ) {
 
         // this is _probably_ an AMD system
-        define([], factory) 
+        define([], factory);
     } else {
 
         // we are operating inside a browser environment
@@ -53,7 +53,7 @@
     
 })(function() {
 
-    var exports = {}
+    var exports = {};
     var module = {
         exports: exports
     };
@@ -67,8 +67,7 @@
         maxDelay: 50
     };
 
-    // var chars = {{{chars}}};
-    var chars = [];
+    var chars = __build_1__;
 
     var clone = function(obj) {
         return JSON.parse(JSON.stringify(obj));

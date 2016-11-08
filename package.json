@@ -1,28 +1,22 @@
 {
   "name": "scramblejs",
   "version": "0.0.0",
-  "description": "A small text-animation library, with jQuery support",
+  "description": "text animation library for browsers",
+  "scripts": {
+      "build": "node scripts/build.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/turtleDev/scramblejs.git"
   },
   "keywords": [
-    "jQuery",
     "animation",
-    "turtleDev"
+    "vanillajs"
   ],
   "author": "Saravjeet 'Aman' Singh",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/turtleDev/scramblejs/issues"
   },
-  "homepage": "https://github.com/turtleDev/scramblejs#readme",
-  "dependencies": {
-    "async": "^2.0.0-rc.2",
-    "gulp-compile-handlebars": "^0.6.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.4",
-    "handlebars": "^4.0.5",
-    "pump": "^1.0.1"
-  }
+  "homepage": "https://github.com/turtleDev/scramblejs#readme"
 }
