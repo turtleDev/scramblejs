@@ -28,6 +28,7 @@
 
 /* global Promise, define, module, exports, window */
 
+// eslint-disable-next-line no-extra-semi
 ;(function(factory) {
 
     if ( typeof Promise === 'undefined' ) {
@@ -67,6 +68,12 @@
         maxDelay: 50
     };
 
+    /**
+     * __build_*__ act as a macro for substitution by the build
+     * system
+     */
+
+    // eslint-disable-next-line no-undef
     var chars = __build_1__;
 
     var clone = function(obj) {
