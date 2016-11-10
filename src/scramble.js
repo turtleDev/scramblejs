@@ -127,7 +127,7 @@
     };
 
     var hasClass = function(el, cls) {
-        return el.className.indexOf(cls) != -1;
+        return el.className.indexOf(cls) !== -1;
     };
 
     /**
@@ -178,7 +178,7 @@
 
         for ( var prop in newConfig ) {
             var p = prop[0].toUpperCase() + prop.slice(1);
-            if ( validProps.indexOf(prop) == -1 ) {
+            if ( validProps.indexOf(prop) === -1 ) {
                 console.warn('scramble: config: unrecognized config parameter: ' + prop);
             } else if ( typeof newConfig[prop] === 'number' ) {
                 config['min'+p] = newConfig[prop];
@@ -337,7 +337,7 @@
 
             return new Promise(function(resolve, reject) {
 
-                if ( typeof length != 'number' ) {
+                if ( typeof length !== 'number' ) {
                     console.error('scramble: createEmpty: length must be a number, got: ' + typeof length);
                     return;
                 }
