@@ -131,7 +131,8 @@
     };
 
     var hasClass = function(el, cls) {
-        return el.className.indexOf(cls) !== -1;
+        var re = new RegExp('\\b' + cls + '\\b');
+        return re.test(el.className);
     };
 
     /**
@@ -382,8 +383,9 @@
         return new Grinder(p);
     };
 
-    Grinder.prototype.createEmpty = function(length) {
+    Grinder.prototype.createEmpty = function(length, padding) {
 
+        padding = padding || '&nbsp;';
         var p = this._origin.then(function(el) {
 
             return new Promise(function(resolve, reject) {
@@ -395,7 +397,7 @@
 
                 var components = '';
                 for ( var i = 0; i < length; ++ i ) {
-                    components += placeholder('');
+                    components += placeholder(padding);
                 }
 
                 el.innerHTML = components;
