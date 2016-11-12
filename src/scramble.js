@@ -55,9 +55,7 @@
 })(function() {
 
     var exports = Object.create(null);
-    var module = {
-        exports: exports
-    };
+    var module = { exports: exports };
     
     var config = {
         minFlip: 1,
@@ -85,6 +83,12 @@
     };
 
     var scaffoldElement = function(el) {
+
+        if ( !(el instanceof Element) ) {
+            var message = "scramble: not a DOM Element";
+            console.warn(message);
+            throw new Error(message);
+        }
 
         if ( hasClass(el, 'js-scramble') ) {
             return;
@@ -207,7 +211,7 @@
     Grinder.prototype.enscramble = function() {
         
         var p = this._origin.then(function(el) {
-            
+
             scaffoldElement(el);
             var count = el.children.length;
             return new Promise(function(resolve, reject) {
@@ -306,7 +310,41 @@
         return new Grinder(p);
     };
 
-    Grinder.prototype.setText = function(text) {
+    var textAlignment = exports.align = {
+        left: function(actors, text) {
+            for ( var i = 0; i < actors.length; ++i ) {
+                actors[i].dataset.ch = text[i] || '&nbsp';
+            }
+        },
+        right: function(actors, text) {
+            var start = actors.length - text.length;
+            for ( var i = 0; i < actors.length; ++i ) {
+                var ch;
+                if ( i < start ) {
+                    ch = '&nbsp';
+                } else {
+                    ch = text[i-start];
+                }
+                actors[i].dataset.ch = ch;
+            }
+        },
+        center: function(actors, text) {
+            var padding = actors.length - text.length;
+            var start = padding / 2;
+            var end = actors.length - padding + start;
+            for ( var i = 0; i < actors.length; ++i ) {
+                var ch;
+                if ( i < start || i >= end ) {
+                    ch = '&nbsp';
+                } else {
+                    ch = text[i-start];
+                }
+                actors[i].dataset.ch = ch;
+            }
+        }
+    };
+
+    Grinder.prototype.setText = function(text, align) {
 
         var p = this._origin.then(function(el) {
             
@@ -317,12 +355,25 @@
                     return reject('error');
                 }
 
-                scaffoldElement(el);
 
+                var i;
+                scaffoldElement(el);
                 var actors = el.children;
-                for ( var i = 0; i < actors.length; ++i ) {
-                    actors[i].dataset.ch = text[i] || '&nbsp;';
+
+                if ( text.length > actors.length ) {
+
+                    var padding = text.length - actors.length;
+                    for ( i = 0; i < padding; ++i ) {
+                        el.appendChild(document.createElement('span'));
+                    }
                 }
+
+                align = align || textAlignment.left;
+                if ( typeof align !== 'function' ) {
+                    console.warn('scramble: setText: \'align\' must be a function (fallback to left alignment)');
+                    align = textAlignment.left;
+                }
+                align(actors, text);
 
                 return resolve(el);
             });
@@ -344,7 +395,7 @@
 
                 var components = '';
                 for ( var i = 0; i < length; ++ i ) {
-                    components += placeholder('&nbsp;');
+                    components += placeholder('');
                 }
 
                 el.innerHTML = components;
