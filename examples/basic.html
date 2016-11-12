@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <script src='../dist/scramble.js'></script>
+    <style type='text/css'>
+    body {
+        font-family: monospace;
+    }
+    </style>
+</head>
+<body>
+    <h1 class="main"></h1>
+</body>
+<script>
+scramble.select('h1')
+.setText('turtledev')
+.wait(1000)
+.descramble()
+.wait(1500)
+.setText('is awesome')
+.descramble()
+.wait(1500)
+.setText('')
+.descramble()
+.wait(5000)
+.setText('still here?')
+.descramble();
+</script>
+</html>
