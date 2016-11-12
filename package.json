@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "text animation library for browsers",
   "scripts": {
-      "build": "node scripts/build.js"
+    "build": "node scripts/build.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/turtleDev/scramblejs/issues"
   },
-  "homepage": "https://github.com/turtleDev/scramblejs#readme"
+  "homepage": "https://github.com/turtleDev/scramblejs#readme",
+  "devDependencies": {
+    "uglify-js": "^2.7.4"
+  }
 }

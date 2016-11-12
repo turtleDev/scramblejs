@@ -3,10 +3,12 @@
 
 const Fs = require('fs');
 const Path = require('path');
+const Uglifyjs = require('uglify-js');
 
 const config = {
     src: 'src/scramble.js',
     dest: 'dist/scramble.js',
+    destMin: 'dist/scramble.min.js',
     entities: 'entities.json',
     chars: 'chars.txt'
 };
@@ -102,6 +104,10 @@ if ( require.main === module ) {
 
         ensureDirectory(Path.dirname(config.dest));
         Fs.writeFileSync(config.dest, result, { encoding: 'utf-8' });
+
+        // minify
+        const minified = Uglifyjs.minify(result, { fromString: true }).code;
+        Fs.writeFileSync(config.destMin, minified, { encoding: 'utf-8' });
 
     }).catch((err) => {
         
