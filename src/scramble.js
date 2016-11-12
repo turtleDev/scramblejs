@@ -271,9 +271,9 @@
     };
                 
 
-    Grinder.prototype.then = function(cb) {
+    Grinder.prototype.then = function(success, error) {
 
-        var p = this._origin.then(cb);
+        var p = this._origin.then(success, error);
         return new Grinder(p);
     };
 
@@ -431,8 +431,6 @@
 
             return selectElement(sel);
         });
-
-        return new Grinder(p);
     };
 
     exports.select = function(sel) {
