@@ -10,33 +10,73 @@
 ## Usage
 
 ```js  
-
-/* browser */
-<script src="scramble.js"></script>
-Scramble.select('h1').enscramble();
-
-/* commonjs */
-var Scramble = require('./scramble');
-Scramble.select('h1').enscramble()
-
-/* amd */
-define(['./scramble.js'], function(Scramble) {
-    Scramble.select('h1').enscramble();
-});
+Scramble.select('h1')
+.wait(1000)
+.setText('this is scramble')
+.descramble();
 ```
 
-## Building  
-before you can use scramble, you'll have to build it first. run:
+## Installation  
+The simplest way to use scramblejs would be to install it from npm:
+```bash
+npm install scramblejs
+```
 
-```js
+Alternatively, you can download or clone this repo. However, if you manually obtain a copy
+of scramblejs, be sure to build it by running
+```bash
 npm run build
 ```
 
-to build scramble. The built files are kept in the `dist` folder.
+## Docs
 
-## Manual
+Tutorial
+-------
+Ready to blow some brains? lets start off with a basic demo
+```html
+<!doctype html>
+<head>
+<script src="scramble.js"></script>
+</head>
+<body>
+  <h1></h1>
+</body>
+<script>
+Scramble.select('h1')
+.setText('hello, world!')
+.descramble();
+</script>
+```
 
-Module
+So here's what happening:
+* `Scramble.select` selects a dom element identified by the dom selector 'h1'
+* `setText` updates the internal buffer to it's argument but doesn't actually apply any animation
+* `descramble` is where the magic happens. To put it in simple (yet confusing) terms, it applies _and_ removes scramble animation. The resultant element contains the text that was perviously passed to `setText` 
+
+The basic workflow in scramble revoles around selecting an element, and then sequencing a series of command that animate that element. 
+
+It is also possible to sequence animation for multiple elements. behold:
+```html
+<!doctype html>
+<head>
+<script src="scramble.js"></script>
+</head>
+<body>
+  <h1 class="first"></h1>
+  <h1 class="second"></h1>
+</body>
+<script>
+Scramble.select('h1.first')
+.setText('I am the first!')
+.descramble()
+.select('h1.second')
+.setText('and I am the second!')
+.descramble();
+</script>
+```
+
+That's pretty much (not) it! Take a look at the examples to get a feel of what else you can do with scramble.
+
 ------
 
 * select  
