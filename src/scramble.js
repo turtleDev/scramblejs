@@ -413,7 +413,8 @@
         return new Grinder(p);
     };
 
-    exports.select = function(sel) {
+
+    var selectElement = function(sel) {
 
         var el;
         if ( sel instanceof Element ) {
@@ -421,7 +422,22 @@
         } else {
             el = document.querySelector(sel);
         }
+        return el;
+    };
 
+    Grinder.prototype.select = function(sel) {
+
+        var p = this._origin.then(function(el) {
+
+            return selectElement(sel);
+        });
+
+        return new Grinder(p);
+    };
+
+    exports.select = function(sel) {
+
+        var el = selectElement(sel)
         return new Grinder(el);
     };
 
