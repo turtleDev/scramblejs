@@ -1,7 +1,6 @@
-<div style="margin: auto">
-  <img src="data/logo.png">
-</div>
-# scramblejs
+<p align="center">
+  <img src="data/logo.png" alt="scramblejs">
+</p>
 
 > A funky text animation library. Unleash your inner nerd!
 
