@@ -53,7 +53,7 @@ So here's what happening:
 * `setText` updates the internal buffer to it's argument but doesn't actually apply any animation
 * `descramble` is where the magic happens. To put it in simple (yet confusing) terms, it applies _and_ removes scramble animation. The resultant element contains the text that was perviously passed to `setText` 
 
-The basic workflow in scramble revoles around selecting an element, and then sequencing a series of command that animate that element. 
+The basic workflow in scramble revoles around selecting an element, and then sequencing a series of command that animate that element. Don't worry if you're not familar with [method-chaining][mc], you'll get used to it. 
 
 It is also possible to sequence animation for multiple elements. behold:
 ```html
@@ -77,49 +77,79 @@ Scramble.select('h1.first')
 
 That's pretty much (not) it! Take a look at the examples to get a feel of what else you can do with scramble.
 
+API Docs
 ------
 
-* select  
-* setConfigGlobal  
-* align
+### `Scramble.select(el:string, object) -> Grinder`
+self-explainatory. el must either be a string, in which case it should be a DOM Selector, or a native `Element` object.
+returns an instance of `Grinder`
 
-Grinder
-------
+### `Scramble.setConfigGlobal(config)`
+This is the module level animation parameters. see `Grinder#setConfig`.
 
-* enscramble  
-* descramble  
-* select 
-* createEmpty
-* setText
-* setConfig
-* wait
-* then  
-* catch  
+### `Scramble.align.*`
+Alignment utilites used by `Grinder#setText`
 
-Config
------
 
-Updates the animation parameters.
-Config must be an object with the following properties:
-    * delay - inital delay(in ms)
-    * interval - time between character switches(in ms)
-    * flip - the number of character switches
+### `class Grinder()`
+`Grinder` object encapsultes the selected DOM element, along with it's corresponding config. Every grinder method returns a new `Grinder` object. A `Grinder` object is returned by `Scramble.select`, and you will never directly instantiate this class.
+
+### `Grinder#createEmpty(length:number, padding:string)`
+Create a new empty buffer. Note that it clears out any previous content. The created buffer is filled with `padding` chars.
+by default, by `&nbsp;`.
+
+### `Grinder#setText(text:string, align:function)`
+Set the internal buffer to `text`. `align` function is used to align the contents of the text within the buffer (in case the buffer is larger than the text. Be default, the text is left aligned, but you can also have it right, or center aligned
+
+```js
+Scramble.select('h1')
+.setText('this will be left aligned', Scramble.align.left) // the second parameter can be omitted here
+.setText('right-align', Scramble.align.right)
+.setText('center', Scramble.align.center)
+```
+
+### `Grinder#setConfig(config:object)`
+This method lets you configure the animation parameters for the currently selected item.
+
+config must be an object with the following properties:
+* delay - inital delay(in ms)
+* interval - time between character switches(in ms)
+* flip - the number of character switches
   
 each field can either have a number as a value, or an object containing a `min` and `max` property.
 for example:
 
 ```js
-scramble.setConfig({delay: 20});
-scramble.setConfig({flip: {min: 5, max: 10}});
-scramble.setConfig({delay: 1, flip: 1, interval: 1});
+/**
+ * this is just for demonstration purposes
+ * configurations are not `queued`.
+ */
+Scramble.select('h1')
+.setConfig({delay: 20});
+.setConfig({flip: {min: 5, max: 10}});
+.setConfig({delay: 1, flip: 1, interval: 1});
 ```
+### `Grinder#enscramble()`
+applies the scramble animation. text is mangled with random characters and becomes un-legible. 
 
+### `Grinder#descramble()`
+applies the scramble animation, but the end text is the same as the internal buffer set by `setText`. 
+
+### `Grinder#select(el:string, object)`
+Analogous to `Scramble.select`, this method lets you select another element in a sequence chain.
+
+### `Grinder#wait(delay:number)`
+lets you delay the next action. `delay` is the wait period in ms.
+
+### `Grinder#then(successHandler:function, errorHandler:function)`
+This method behaves exactly like `Promise.prototype.then`. This method lets you schedule other tasks at the end of an animation sequence. The resolved value is the DOM element that was being animated.
+
+### `Grinder#catch(errorHandler:function)`
+equivalent to `Grinder#then(null, errorHandler)`
 
 ## Todo
 
-* polish the code
-* improve scramble.createEmpty to consider any previous text. maybe add a scramble.replaceText that combines scramble.createEmtpy & scramble.setText ?  
-* add more documentation
+* add more examples
 
 ## Tip
 use monospace fonts for the best effect
@@ -129,3 +159,4 @@ MIT
 
 ## Credits
 The entities.json was taken from whatwg's HTML specification. from [here](https://html.spec.whatwg.org/entities.json) to be exact.  
+[mc]: https://en.wikipedia.org/wiki/Method_chaining
