@@ -14,15 +14,15 @@
     <h1 class="main"></h1>
 </body>
 <script>
-scramble.select('h1')
+Scramble.select('h1')
 .createEmpty(40)
 .setText('this is a really long string that is left aligned')
 .wait(1500)
 .descramble()
-.setText('short string, right aligned', scramble.align.right)
+.setText('short string, right aligned', Scramble.align.right)
 .wait(1500)
 .descramble()
-.setText('center aligned text', scramble.align.center)
+.setText('center aligned text', Scramble.align.center)
 .wait(1500)
 .descramble();
 </script>

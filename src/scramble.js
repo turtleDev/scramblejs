@@ -49,7 +49,7 @@
 
         // we are operating inside a browser environment
         // ... probably
-        window.scramble = factory();
+        window.Scramble = factory();
     }
     
 })(function() {
