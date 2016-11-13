@@ -1,3 +1,4 @@
+[![npm](https://img.shields.io/npm/v/scramblejs.svg)](https://www.npmjs.com/package/scramblejs)
 <p align="center">
   <img src="data/logo.png" alt="scramblejs">
 </p>
