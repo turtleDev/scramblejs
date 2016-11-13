@@ -99,7 +99,8 @@ Create a new empty buffer. Note that it clears out any previous content. The cre
 by default, by `&nbsp;`.
 
 ### `Grinder#setText(text:string, align:function)`
-Set the internal buffer to `text`. `align` function is used to align the contents of the text within the buffer (in case the buffer is larger than the text. Be default, the text is left aligned, but you can also have it right, or center aligned
+Set the internal buffer to `text`. `align` function is used to align the contents of the text within the buffer (in case the buffer is larger than the text). Be default, the text is left aligned, but you can also have it right, or center aligned.
+
 
 ```js
 Scramble.select('h1')
@@ -107,6 +108,8 @@ Scramble.select('h1')
 .setText('right-align', Scramble.align.right)
 .setText('center', Scramble.align.center)
 ```
+In case the buffer is too small, it is expanded in order to make space for the text. However, it will not be shrinked in case text-length is less than the
+buffer length. To resize a buffer, use `Grinder#createEmpty`
 
 ### `Grinder#setConfig(config:object)`
 This method lets you configure the animation parameters for the currently selected item.
@@ -146,10 +149,6 @@ This method behaves exactly like `Promise.prototype.then`. This method lets you 
 
 ### `Grinder#catch(errorHandler:function)`
 equivalent to `Grinder#then(null, errorHandler)`
-
-## Todo
-
-* add more examples
 
 ## Tip
 use monospace fonts for the best effect
