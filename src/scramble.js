@@ -398,7 +398,9 @@
                 el.innerHTML = components;
 
                 if ( !hasClass(el, 'js-scramble') ){
-                    el.className += ' js-scramble';
+                    var classes = el.className.split(' ');
+                    classes.push('js-scramble');
+                    el.className = classes.join(' ');
                 }
 
                 return resolve(el);
