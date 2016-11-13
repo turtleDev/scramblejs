@@ -85,7 +85,7 @@
     var scaffoldElement = function(el) {
 
         if ( !(el instanceof Element) ) {
-            var message = "scramble: not a DOM Element";
+            var message = 'scramble: not a DOM Element';
             console.warn(message);
             throw new Error(message);
         }
@@ -434,7 +434,7 @@
 
     exports.select = function(sel) {
 
-        var el = selectElement(sel)
+        var el = selectElement(sel);
         return new Grinder(el);
     };
 
