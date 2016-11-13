@@ -17,15 +17,31 @@ Scramble.select('h1')
 ```
 
 ## Installation  
-The simplest way to use scramblejs would be to install it from npm:
+using npm
 ```bash
 npm install scramblejs
 ```
 
-Alternatively, you can download or clone this repo. However, if you manually obtain a copy
-of scramblejs, be sure to build it by running
+manually
 ```bash
+git clone https://github.com/turtleDev/scramblejs
+cd scramblejs
 npm run build
+```
+scramblejs can be used via `script` tags, CommonJS `require` or AMD `define`.
+
+```js
+/* browser */
+<script src="/path/to/scramble.js"></script>
+<script>
+Scramble.select('h1');
+</script>
+
+/* CommonJS systems (webpack) */
+var Scramble = require('scramblejs');
+
+/* AMD */
+define(['scramblejs'], function(scramble) {});
 ```
 
 ## Docs
