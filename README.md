@@ -111,14 +111,14 @@ Alignment utilites used by `Grinder#setText`
 
 
 ### `class Grinder()`
-`Grinder` object encapsultes the selected DOM element, along with it's corresponding config. Every grinder method returns a new `Grinder` object. A `Grinder` object is returned by `Scramble.select`, and you will never directly instantiate this class.
+`Grinder` object encapsulates the selected DOM element, along with it's corresponding config. Every grinder method returns a new `Grinder` object (except `.then` and `.catch`). A `Grinder` object is returned by `Scramble.select`, and you will never directly instantiate this class.
 
 ### `Grinder#createEmpty(length:number, padding:string)`
 Create a new empty buffer. Note that it clears out any previous content. The created buffer is filled with `padding` chars.
 by default, by `&nbsp;`.
 
 ### `Grinder#setText(text:string, align:function)`
-Set the internal buffer to `text`. `align` function is used to align the contents of the text within the buffer (in case the buffer is larger than the text). Be default, the text is left aligned, but you can also have it right, or center aligned.
+Set the internal buffer to `text`.&nbsp;`align` function is used to align the contents of the text within the buffer (in case the buffer is larger than the text). By default, the text is left aligned, but you can also have it right, or center aligned.
 
 
 ```js
