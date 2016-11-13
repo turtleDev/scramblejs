@@ -172,6 +172,11 @@ use monospace fonts for the best effect
 ## License
 MIT
 
+## Dependencies
+
+Scramblejs has no runtime dependencies, however, it does require the `Promise` API. If you're targetting browsers that don't support Promises, I recommed you use a polyfill like [bluebird][bb].
+
 ## Credits
 The entities.json was taken from whatwg's HTML specification. from [here](https://html.spec.whatwg.org/entities.json) to be exact.  
 [mc]: https://en.wikipedia.org/wiki/Method_chaining
+[bb]: https://github.com/petkaantonov/bluebird
