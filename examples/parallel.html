@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <script src='../dist/scramble.js'></script>
+    <style type='text/css'>
+    body {
+        font-family: monospace;
+    }
+    </style>
+</head>
+<body>
+    <h1 class="first"></h1>
+    <h1 class="second"></h1>
+    <h1 class="third"></h1>
+</body>
+<script>
+
+/**
+ * this is a demonstration of parallel animation with 
+ * gate pattern. This is just one ways to go about it,
+ * and you can do this in many other ways.
+ */
+var tasks = [
+    new Promise(function(resolve, reject) {
+        Scramble.select('h1.first')
+        .setText('both of use will animate together')
+        .wait(1500)
+        .descramble()
+        .then(function(el) {
+            return resolve(el);
+        });
+    }),
+    new Promise(function(resolve, reject) {
+        Scramble.select('h1.second')
+        .setText('yep, the guy above knows what he\'s talking about')
+        .wait(1500)
+        .descramble()
+        .then(function(el) {
+            return resolve(el);
+        });
+    })
+];
+
+Promise.all(tasks)
+.then(function(result) {
+    var message = "and I will come in when the two above are done";
+    document.querySelector('h1.third').innerHTML = message;
+});
+        
+</script>
+</html>

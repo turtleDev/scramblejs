@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <script src='../dist/scramble.js'></script>
+    <style type='text/css'>
+    body {
+        font-family: monospace;
+    }
+    </style>
+</head>
+<body>
+    <h1 class="main"></h1>
+</body>
+<script>
+// global config
+Scramble.setConfigGlobal({
+    flip: { min: 10, max: 20 },
+    interval: 100
+});
+
+Scramble.select('h1')
+.setText('this is going to take long')
+.wait(1000)
+.descramble()
+.wait(1000)
+.setConfig({ flip: 5, interval: 20}) // local config, overrides global
+.setText('this will be fast')
+.descramble();
+</script>
+</html>
