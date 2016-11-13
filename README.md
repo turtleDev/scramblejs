@@ -26,6 +26,7 @@ manually
 ```bash
 git clone https://github.com/turtleDev/scramblejs
 cd scramblejs
+npm install
 npm run build
 ```
 scramblejs can be used via `script` tags, CommonJS `require` or AMD `define`.
