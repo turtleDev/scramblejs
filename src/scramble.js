@@ -1,5 +1,4 @@
 /**
- * @license
  * The MIT License
  *
  * Copyright (c) 2016 Saravjeet 'Aman' Singh
@@ -214,6 +213,7 @@
     
     Grinder.prototype.enscramble = function() {
         
+        var self = this;
         var p = this._origin.then(function(el) {
 
             scaffoldElement(el);
@@ -302,14 +302,8 @@
 
     Grinder.prototype.setConfig = function(newConfig) {
 
-        var self = this;
-        var p = this._origin.then(function(el) {
-            return new Promise(function(resolve, reject) {
-                self._config = setConfig(self._config, newConfig);
-                return resolve(el);
-            });
-        });
-        return new Grinder(p, this._config);
+        this._config = setConfig(this._config, newConfig);
+        return this;
     };
 
     var textAlignment = exports.align = {
