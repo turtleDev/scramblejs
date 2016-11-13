@@ -80,11 +80,11 @@ That's pretty much (not) it! Take a look at the examples to get a feel of what e
 API Docs
 ------
 
-### `Scramble.select(el:string, object) -> Grinder`
+### `Scramble.select(el:string|object) -> Grinder`
 self-explainatory. el must either be a string, in which case it should be a DOM Selector, or a native `Element` object.
 returns an instance of `Grinder`
 
-### `Scramble.setConfigGlobal(config)`
+### `Scramble.setConfigGlobal(config:config)`
 This is the module level animation parameters. see `Grinder#setConfig`.
 
 ### `Scramble.align.*`
@@ -135,7 +135,7 @@ applies the scramble animation. text is mangled with random characters and becom
 ### `Grinder#descramble()`
 applies the scramble animation, but the end text is the same as the internal buffer set by `setText`. 
 
-### `Grinder#select(el:string, object)`
+### `Grinder#select(el:string|object)`
 Analogous to `Scramble.select`, this method lets you select another element in a sequence chain.
 
 ### `Grinder#wait(delay:number)`
