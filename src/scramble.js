@@ -58,7 +58,7 @@
     var exports = Object.create(null);
     var module = { exports: exports };
     
-    var config = {
+    var globalConfig = {
         minFlip: 1,
         maxFlip: 7,
         minInterval: 150,
@@ -155,7 +155,7 @@
      * where actor is the dom element, ch is a list of characters, and
      * interval is the time between the character switches.
      */
-    var queueAnimation = function(el, cb) {
+    var queueAnimation = function(el, cb, config) {
 
         scaffoldElement(el);
 
@@ -175,6 +175,7 @@
 
     var setConfig = function(config, newConfig) {
 
+        config = clone(config);
         if ( typeof newConfig !== 'object' || newConfig.hasOwnProperty('length') ) {
             console.error('scramble: config: was expecting an object, got ' + newConfig);
             return;
@@ -200,14 +201,15 @@
         return config;
     };
 
-    var Grinder = function(element) {
+    var Grinder = function(element, config) {
 
         if ( !(this instanceof Grinder) ) {
             throw Error('objects must be constructed using the new keyword');
         }
 
+        config = config || globalConfig;
         this._origin = Promise.resolve(element);
-        this._config = clone(config);
+        this._config = config;
     };
     
     Grinder.prototype.enscramble = function() {
@@ -234,15 +236,16 @@
                     }, interval);
                 }
 
-                queueAnimation(el, _enscramble);
+                queueAnimation(el, _enscramble, self._config);
             });
         });
 
-        return new Grinder(p);
+        return new Grinder(p, this._config);
     };
 
     Grinder.prototype.descramble = function() {
 
+        var self = this;
         var p = this._origin.then(function(el) {
 
             scaffoldElement(el);
@@ -264,24 +267,22 @@
                         _descramble(actor, chars, interval);
                     }, interval);
                 }
-                queueAnimation(el, _descramble);
+                queueAnimation(el, _descramble, self._config);
             });
         });
 
-        return new Grinder(p);
+        return new Grinder(p, this._config);
     };
                 
 
     Grinder.prototype.then = function(success, error) {
 
-        var p = this._origin.then(success, error);
-        return new Grinder(p);
+        return this._origin.then(success, error);
     };
 
     Grinder.prototype.catch = function(cb) {
 
-        var p = this._origin.catch(cb);
-        return new Grinder(p);
+        return this._origin.catch(cb);
     };
 
     Grinder.prototype.wait = function(duration) {
@@ -295,21 +296,14 @@
                 }, duration);
             });
         });
-        return new Grinder(p);
+
+        return new Grinder(p, this._config);
     };
 
     Grinder.prototype.setConfig = function(newConfig) {
 
-        var p = this._origin.then(function(el) {
-
-            return new Promise(function(resolve, reject) {
-
-                setConfig(this._config, newConfig);
-                resolve(el);
-            });
-        });
-
-        return new Grinder(p);
+        this._config = setConfig(this._config, newConfig);
+        return this;
     };
 
     var textAlignment = exports.align = {
@@ -381,7 +375,7 @@
             });
         });
 
-        return new Grinder(p);
+        return new Grinder(p, this._config);
     };
 
     Grinder.prototype.createEmpty = function(length, padding) {
@@ -411,7 +405,7 @@
             });
         });
 
-        return new Grinder(p);
+        return new Grinder(p, this._config);
     };
 
 
@@ -432,6 +426,8 @@
 
             return selectElement(sel);
         });
+
+        return new Grinder(el, this._origin);
     };
 
     exports.select = function(sel) {
@@ -442,7 +438,7 @@
 
     exports.setConfigGlobal = function(newConfig) {
 
-        setConfig(config, newConfig);
+        globalConfig = setConfig(globalConfig, newConfig);
     };
 
     return module.exports;
