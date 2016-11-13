@@ -1,7 +1,8 @@
 {
   "name": "scramblejs",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "text animation library for browsers",
+  "main": "dist/scramble.min.js",
   "scripts": {
     "build": "node scripts/build.js"
   },
@@ -13,7 +14,10 @@
     "animation",
     "vanillajs"
   ],
-  "author": "Saravjeet 'Aman' Singh",
+  "author": {
+      "name": "Saravjeet 'Aman' Singh",
+      "email": "saravjeetamansingh@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/turtleDev/scramblejs/issues"
