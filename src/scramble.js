@@ -302,8 +302,14 @@
 
     Grinder.prototype.setConfig = function(newConfig) {
 
-        this._config = setConfig(this._config, newConfig);
-        return this;
+        var self = this;
+        var p = this._origin.then(function(el) {
+            return new Promise(function(resolve, reject) {
+                self._config = setConfig(self._config, newConfig);
+                return resolve(el);
+            });
+        });
+        return new Grinder(p, this._config);
     };
 
     var textAlignment = exports.align = {
@@ -427,7 +433,7 @@
             return selectElement(sel);
         });
 
-        return new Grinder(el, this._origin);
+        return new Grinder(p, this._config);
     };
 
     exports.select = function(sel) {
