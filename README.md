@@ -1,4 +1,5 @@
 [![npm](https://img.shields.io/npm/v/scramblejs.svg)](https://www.npmjs.com/package/scramblejs)
+[![Code Climate](https://codeclimate.com/github/turtleDev/scramblejs/badges/gpa.svg)](https://codeclimate.com/github/turtleDev/scramblejs)
 <p align="center">
   <img src="data/logo.png" alt="scramblejs">
 </p>
