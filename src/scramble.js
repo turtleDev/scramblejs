@@ -145,7 +145,7 @@
     };
 
     /**
-     * queueAnimation(el, cb)
+     * queueAnimation(el, cb, config)
      *
      * This function is used to schedule animation for every element.
      * 
