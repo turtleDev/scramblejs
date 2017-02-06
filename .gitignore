@@ -1,9 +1,6 @@
 # npm things
 node_modules
 
-# build files
-dist
-
 # editor specific files
 *.swp
 \#*\#
