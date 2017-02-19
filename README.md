@@ -1,13 +1,13 @@
 [![npm](https://img.shields.io/npm/v/scramblejs.svg)](https://www.npmjs.com/package/scramblejs)
 [![Code Climate](https://codeclimate.com/github/turtleDev/scramblejs/badges/gpa.svg)](https://codeclimate.com/github/turtleDev/scramblejs)
 <p align="center">
-  <img src="data/logo.png" alt="scramblejs">
+  <img src="https://cdn.rawgit.com/turtleDev/scramblejs/e025c929/data/logo.png?raw=true" alt="scramblejs">
 </p>
 
 > A funky text animation library. Unleash your inner nerd!
 
 ## Demo
-<img height="80px" src="data/demo.gif">
+<img height="80px" src="https://cdn.rawgit.com/turtleDev/scramblejs/e025c929/data/demo.gif?raw=true">
 
 ## Usage
 
