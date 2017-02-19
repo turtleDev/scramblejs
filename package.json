@@ -1,6 +1,6 @@
 {
   "name": "scramblejs",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "text animation library for browsers",
   "main": "dist/scramble.min.js",
   "scripts": {
@@ -15,8 +15,8 @@
     "vanillajs"
   ],
   "author": {
-      "name": "Saravjeet 'Aman' Singh",
-      "email": "saravjeetamansingh@gmail.com"
+    "name": "Saravjeet 'Aman' Singh",
+    "email": "saravjeetamansingh@gmail.com"
   },
   "license": "MIT",
   "bugs": {
